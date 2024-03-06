@@ -78,13 +78,12 @@ private static String replaceVariables(String expr, Map<String, Integer> variabl
 private static List<String> extractVariables(String expr) {
     List<String> variables = new ArrayList<>();
     StringBuilder variable = new StringBuilder();
-    // Introduce espacios alrededor de cada operador para asegurar la separación de las variables
     String modifiedExpr = expr.replaceAll("([\\+\\-\\*/\\^()])", " $1 ");
     Scanner scanner = new Scanner(modifiedExpr);
 
     while (scanner.hasNext()) {
         String token = scanner.next();
-        if (!token.matches("[\\+\\-\\*/\\^()0-9]+") && !variables.contains(token)) { // Asume que cualquier token que no sea un operador o dígito es una variable
+        if (!token.matches("[\\+\\-\\*/\\^()0-9]+") && !variables.contains(token)) { 
             variables.add(token);
         }
     }
