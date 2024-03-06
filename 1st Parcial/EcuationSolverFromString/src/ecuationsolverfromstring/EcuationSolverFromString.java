@@ -32,7 +32,14 @@ public class EcuationSolverFromString {
         }
         
         System.out.println("Expresion despues del reemplazo: " + expression);
-
+        //1+17-33*15-(2^(1+8))+10
+        //(1+1)+(2*8)
+        //(1)+33-(2^0)
+        //1-1024/(1024-2^10) 
+        //Juan+Pepe 
+        //1+a/b 
+        //(equis-zeta)+equis+zeta 
+        //
 
         try {
             double result = evaluateExpression(expression);
@@ -191,7 +198,7 @@ private static double evaluate(String expr, int start, int end) throws Exception
     if (isBuildingNumber) {
         numbers.add(currentNumber);
     }
-
+    
     // Procesamiento de potencias primero
     for (int i = 0; i < operations.size(); i++) {
         if (operations.get(i) == '^') {
@@ -208,6 +215,11 @@ private static double evaluate(String expr, int start, int end) throws Exception
     // Procesamiento de multiplicaciones y divisiones
     for (int i = 0; i < operations.size(); i++) {
         if (operations.get(i) == '*' || operations.get(i) == '/') {
+            if (operations.get(i) == '/') {
+            if (numbers.get(i + 1) == 0) {
+                throw new Exception("no se puede dividir entre 0");
+            }
+            }
             double left = numbers.get(i);
             double right = numbers.get(i + 1);
             double result = operations.get(i) == '*' ? left * right : left / right;
@@ -228,25 +240,6 @@ private static double evaluate(String expr, int start, int end) throws Exception
     return finalResult;
 }
 
-
-
-private static double applyOperation(double result, double currentNumber, char operation) {
-    switch (operation) {
-        case '+':
-            return result + currentNumber;
-        case '-':
-            return result - currentNumber;
-        case '*':
-            return result * currentNumber;
-        case '/':
-            if (currentNumber == 0) throw new ArithmeticException("Division entre cero");
-            return result / currentNumber;
-        default:
-            return result;
-    }
 }
 
-   
 
-
-}
