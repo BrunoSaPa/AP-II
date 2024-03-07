@@ -2,186 +2,328 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package operacionesconfracciones;
-import java.util.HashMap;
+
 /**
  *
  * @author BRUNO
  */
+package operacionesconfracciones;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
 public class OperacionesConFracciones {
-
-    /**
-     * @param args the command line arguments
-     */
-    private static HashMap<String, Integer> numeradorMap;
-    private static HashMap<String, Integer> denominadorMap;
-
-    static {
-
-        numeradorMap = new HashMap<>();
-        numeradorMap.put("un", 1);
-        numeradorMap.put("uno", 1);
-        numeradorMap.put("dos", 2);
-        numeradorMap.put("tres", 3);
-        numeradorMap.put("cuatro", 4);
-        numeradorMap.put("cinco", 5);
-        numeradorMap.put("seis", 6);
-        numeradorMap.put("siete", 7);
-        numeradorMap.put("ocho", 8);
-        numeradorMap.put("nueve", 9);
-        numeradorMap.put("diez", 10);
-        numeradorMap.put("once", 11);
-        numeradorMap.put("doce", 12);
-        numeradorMap.put("trece", 13);
-        numeradorMap.put("catorce", 14);
-        numeradorMap.put("quince", 15);
-        numeradorMap.put("dieciseis", 16);
-        numeradorMap.put("diecisiete", 17);
-        numeradorMap.put("dieciocho", 18);
-        numeradorMap.put("diecinueve", 19);
-        numeradorMap.put("veinte", 20);
-        numeradorMap.put("veintiuno", 21);
-        numeradorMap.put("veintidos", 22);
-        numeradorMap.put("veintitres", 23);
-        numeradorMap.put("veinticuatro", 24);
-        numeradorMap.put("veinticinco", 25);
-        numeradorMap.put("veintiseis", 26);
-        numeradorMap.put("veintisiete", 27);
-        numeradorMap.put("veintiocho", 28);
-        numeradorMap.put("veintinueve", 29);
-        numeradorMap.put("treinta", 30);
-        numeradorMap.put("cuarenta", 40);
-        numeradorMap.put("cincuenta", 50);
-        numeradorMap.put("sesenta", 60);
-        numeradorMap.put("setenta", 70);
-        numeradorMap.put("ochenta", 80);
-        numeradorMap.put("noventa", 90);
-
-
-
-        denominadorMap = new HashMap<>();
-        denominadorMap.put("medio", 2);
-        denominadorMap.put("tercios", 3);
-        denominadorMap.put("tercio", 3);
-        denominadorMap.put("cuartos", 4);
-        denominadorMap.put("quintos", 5);
-        denominadorMap.put("sextos", 6);
-        denominadorMap.put("septimos", 7);
-        denominadorMap.put("octavos", 8);
-        denominadorMap.put("novenos", 9);
-        denominadorMap.put("decimos", 10);
-        denominadorMap.put("unavos", 1);
-        denominadorMap.put("dosavos", 2);
-        denominadorMap.put("tresavos", 3);
-        denominadorMap.put("cuatroavos", 4);
-        denominadorMap.put("cincoavos", 5);
-        denominadorMap.put("seisavos", 6);
-        denominadorMap.put("sieteavos", 7);
-        denominadorMap.put("ochoavos", 8);
-        denominadorMap.put("nueveavos", 9);
-        denominadorMap.put("onceavos", 11);
-        denominadorMap.put("doceavos", 12);
-        denominadorMap.put("treceavos", 13);
-        denominadorMap.put("catorceavos", 14);
-        denominadorMap.put("quinceavos", 15);
-        denominadorMap.put("dieciseiseavos", 16);
-        denominadorMap.put("diecisieteavos", 17);
-        denominadorMap.put("dieciochoavos", 18);
-        denominadorMap.put("diecinueveavos", 19);
-        denominadorMap.put("veinti", 20);
-        denominadorMap.put("treintai", 30);
-        denominadorMap.put("cuarentai", 40);
-        denominadorMap.put("cincuentai", 50);
-        denominadorMap.put("sesentai", 60);
-        denominadorMap.put("setentai", 70);
-        denominadorMap.put("ochentai", 80);
-        denominadorMap.put("ochentai", 80);
-
-    }
-
     public static void main(String[] args) {
-        // Ejemplo de input
-        String input = "setenta y cuatro cuarentaitresavos menos catorce diecinueveavos";
-        Fraccion resultado = procesarInput(input);
-        System.out.println(fraccionAString(resultado));
-    }
+        //un medio mas tres quintos  res= 11/10
+    //un medio menos un medio  res= 0/4
+    //noventa y nueve noventainueveavos por noventa y nueve noventainueveavos    res=9801/9801
+    //diez noventainueveavos entre treinta y tres sesentaiseisavos   res=660/3267
+    // cero quintos entre tres novenos   res= 0/15
+    //tres novenos entre cero quintos
+    // tres cero mas dos sextos
+    // un medio mas genial
+        
+        
+        Scanner scanner = new Scanner(System.in);
 
-private static Fraccion procesarInput(String input) {
-    
-        String operacionInput = input.replace(" mas ", " + ")
-                                 .replace(" menos ", " - ")
-                                 .replace(" por ", " * ")
-                                 .replace(" entre ", " / ");
+        Map<String, Integer> palabrasANumeros = new HashMap<>();
+        Map<String, Integer> palabrasAFracciones = new HashMap<>();
+        DiccionarioPalabras(palabrasANumeros);
+        inicializarFraccionesEspecificas(palabrasAFracciones);
+        Fracciones(palabrasANumeros, palabrasAFracciones);
+       
+        System.out.println("Ingrese la fraccion");
+        String expresion = scanner.nextLine().toLowerCase();
+        String[] partes = expresion.split(" ");
 
-    String operacion = "";
-    if (operacionInput.contains(" + ")) {
-        operacion = "+";
-    } else if (operacionInput.contains(" - ")) {
-        operacion = "-";
-    } else if (operacionInput.contains(" * ")) {
-        operacion = "*";
-    } else if (operacionInput.contains(" / ")) {
-        operacion = "/";
-    }
+        Fraccion resultado = null;
+        String operacion = null;
+        boolean error = false;
 
-    String[] partes = operacionInput.split(" \\+ | - | \\* | / ");
-    Fraccion res = new Fraccion(0, 1); // Fracción inicial neutra para la suma
+        for (int i = 0; i < partes.length && !error;) {
+           
 
-    for (String parte : partes) {
-        String[] palabras = parte.split(" ");
-        int numerador = 0;
-        int denominador = 1; // Valor inicial para evitar división por cero
+            if (palabrasANumeros.containsKey(partes[i]) || (i + 1 < partes.length && palabrasAFracciones.containsKey(partes[i + 1]))) {
+                String numeroCompuesto = partes[i];
 
-        // Procesar el numerador
-        if (palabras[1].equals("y")) { // Para numeradores compuestos
-            numerador = numeradorMap.get(palabras[0]) + numeradorMap.get(palabras[2]);
-        } else { // Para numeradores simples
-            numerador = numeradorMap.get(palabras[0]);
+                while (i + 2 < partes.length && palabrasANumeros.containsKey(partes[i + 2])) {
+                    numeroCompuesto += " " + partes[i + 1] + " " + partes[i + 2];
+                    i += 2;
+                }
+
+                if (i + 1 < partes.length && palabrasAFracciones.containsKey(partes[i + 1])) {
+                    numeroCompuesto += " " + partes[i + 1];
+                    i++;
+                }
+
+                Fraccion fraccionActual = convertirPalabrasANumeros(numeroCompuesto, palabrasANumeros, palabrasAFracciones);
+
+                if (fraccionActual == null) {
+                    error = true;
+                    continue;
+                }
+
+                if (resultado == null) {
+                    resultado = fraccionActual;
+                } else {
+                    if (operacion != null) {
+                        resultado = realizarOperacion(resultado, fraccionActual, operacion);
+                        if (resultado == null) {
+                            error = true;
+                            continue;
+                        }
+                    } else {
+                        System.out.println("No se reconoce como una operacion valida.");
+                        error = true;
+                        continue;
+                    }
+                }
+                i++;
+            } else {
+                if (!partes[i].equals("mas") && !partes[i].equals("menos") && !partes[i].equals("por") && !partes[i].equals("entre") && !partes[i].equals("y")) {
+                    System.out.println("No existe " + partes[i]);
+                    error = true;
+                    continue;
+                }
+                operacion = partes[i];
+                i++;
+            }
+
         }
 
-        // Procesar el denominador
-        int denominadorStartIndex = palabras[1].equals("y") ? 3 : 1;
-        String denominadorStr = palabras[denominadorStartIndex];
+        if (!error && resultado != null) {
+            System.out.println(resultado.ResultadoPalabras(palabrasANumeros));
+        } else if (!error) {
+            System.out.println("No se pudo calcular un resultado.");
+        }
 
-        // Caso para denominadores simples directos
-        if (denominadorMap.containsKey(denominadorStr)) {
-            denominador = denominadorMap.get(denominadorStr);
-        } else {
-            // Intentar dividir el denominador compuesto
-            for (String key : denominadorMap.keySet()) {
-                if (denominadorStr.startsWith(key)) {
-                    int denominadorParte1 = denominadorMap.get(key);
-                    String denominadorParte2Str = denominadorStr.substring(key.length());
-                    // Asegura que la segunda parte del denominador también sea válida
-                    if (denominadorMap.containsKey(denominadorParte2Str)) {
-                        int denominadorParte2 = denominadorMap.get(denominadorParte2Str);
-                        // Calcula el denominador combinado
-                        denominador = denominadorParte1 + denominadorParte2;
-                        break; // Sale del bucle una vez que encuentra una coincidencia válida
-                    }
+        scanner.close();
+    }
+
+    private static void DiccionarioPalabras(Map<String, Integer> mapaPalabrasNumeros) {
+        mapaPalabrasNumeros.put("cero", 0);
+        mapaPalabrasNumeros.put("un", 1);
+        mapaPalabrasNumeros.put("uno", 1);
+        mapaPalabrasNumeros.put("dos", 2);
+        mapaPalabrasNumeros.put("tres", 3);
+        mapaPalabrasNumeros.put("cuatro", 4);
+        mapaPalabrasNumeros.put("cinco", 5);
+        mapaPalabrasNumeros.put("seis", 6);
+        mapaPalabrasNumeros.put("siete", 7);
+        mapaPalabrasNumeros.put("ocho", 8);
+        mapaPalabrasNumeros.put("nueve", 9);
+        mapaPalabrasNumeros.put("diez", 10);
+        mapaPalabrasNumeros.put("once", 11);
+        mapaPalabrasNumeros.put("doce", 12);
+        mapaPalabrasNumeros.put("trece", 13);
+        mapaPalabrasNumeros.put("catorce", 14);
+        mapaPalabrasNumeros.put("quince", 15);
+        mapaPalabrasNumeros.put("dieciseis", 16);
+        mapaPalabrasNumeros.put("diecisiete", 17);
+        mapaPalabrasNumeros.put("dieciocho", 18);
+        mapaPalabrasNumeros.put("diecinueve", 19);
+        mapaPalabrasNumeros.put("veinte", 20);
+        mapaPalabrasNumeros.put("veintiuno", 21);
+        mapaPalabrasNumeros.put("veintidos", 22);
+        mapaPalabrasNumeros.put("veintitres", 23);
+        mapaPalabrasNumeros.put("veinticuatro", 24);
+        mapaPalabrasNumeros.put("veinticinco", 25);
+        mapaPalabrasNumeros.put("veintiseis", 26);
+        mapaPalabrasNumeros.put("veintisiete", 27);
+        mapaPalabrasNumeros.put("veintiocho", 28);
+        mapaPalabrasNumeros.put("veintinueve", 29);
+        mapaPalabrasNumeros.put("treinta", 30);
+         mapaPalabrasNumeros.put("treintaiuno", 31);
+         mapaPalabrasNumeros.put("treintaidos", 32);
+         mapaPalabrasNumeros.put("treintaitres", 33);
+         mapaPalabrasNumeros.put("treintaicuatro", 34);
+         mapaPalabrasNumeros.put("treintaicinco", 35);
+         mapaPalabrasNumeros.put("treintaiseis", 36);
+         mapaPalabrasNumeros.put("treintaisiete", 37);
+         mapaPalabrasNumeros.put("treintaiocho", 38);
+         mapaPalabrasNumeros.put("treintainueve", 39);
+         mapaPalabrasNumeros.put("cuarenta", 40);
+           mapaPalabrasNumeros.put("cuarentaiuno", 41);
+         mapaPalabrasNumeros.put("cuarentaidos", 42);
+         mapaPalabrasNumeros.put("cuarentaitres", 43);
+         mapaPalabrasNumeros.put("cuarentaicuatro", 44);
+         mapaPalabrasNumeros.put("cuarentaicinco", 45);
+         mapaPalabrasNumeros.put("cuarentaiseis", 46);
+         mapaPalabrasNumeros.put("cuarentaisiete", 47);
+         mapaPalabrasNumeros.put("cuarentaiocho", 48);
+         mapaPalabrasNumeros.put("cuarentainueve", 49);
+         mapaPalabrasNumeros.put("cincuenta", 50);
+         mapaPalabrasNumeros.put("cincuentaiuno", 51);
+           mapaPalabrasNumeros.put("cincuentaidos", 52);
+         mapaPalabrasNumeros.put("cincuentaitres", 53);
+         mapaPalabrasNumeros.put("cincuentaicuatro", 54);
+         mapaPalabrasNumeros.put("cincuentaicinco", 55);
+         mapaPalabrasNumeros.put("cincuentaiseis", 56);
+         mapaPalabrasNumeros.put("cincuentaisiete", 57);
+         mapaPalabrasNumeros.put("cincuentaiocho", 58);
+         mapaPalabrasNumeros.put("cicnuentainueve", 59);
+         mapaPalabrasNumeros.put("sesenta", 60);
+         mapaPalabrasNumeros.put("sesentaiuno", 61);
+         mapaPalabrasNumeros.put("sesentaidos", 62);
+           mapaPalabrasNumeros.put("sesentaitres", 63);
+         mapaPalabrasNumeros.put("sesentaicuatro", 64);
+         mapaPalabrasNumeros.put("sesentaicinco", 65);
+         mapaPalabrasNumeros.put("sesentaiseis", 66);
+         mapaPalabrasNumeros.put("sesentaisiete", 67);
+         mapaPalabrasNumeros.put("sesentaiocho", 68);
+         mapaPalabrasNumeros.put("sesentainueve", 69);
+         mapaPalabrasNumeros.put("setenta", 70);
+         mapaPalabrasNumeros.put("setentaiuno", 71);
+         mapaPalabrasNumeros.put("setentaidos", 72);
+         mapaPalabrasNumeros.put("setentaitres", 73);
+           mapaPalabrasNumeros.put("setentaicuatro", 74);
+         mapaPalabrasNumeros.put("setentaicinco", 75);
+         mapaPalabrasNumeros.put("setentaiseis", 76);
+         mapaPalabrasNumeros.put("setentaisiete", 77);
+         mapaPalabrasNumeros.put("setentaiocho", 78);
+         mapaPalabrasNumeros.put("setentainueve", 79);
+         mapaPalabrasNumeros.put("ochenta", 80);
+         mapaPalabrasNumeros.put("ochentaiuno", 81);
+         mapaPalabrasNumeros.put("ochentaidos", 82);
+         mapaPalabrasNumeros.put("ochentaitres", 83);
+         mapaPalabrasNumeros.put("ochentaicuatro", 84);
+        mapaPalabrasNumeros.put("ochentaicinco", 85);
+         mapaPalabrasNumeros.put("ochentaiseis", 86);
+         mapaPalabrasNumeros.put("ochentaisiete", 87);
+         mapaPalabrasNumeros.put("ochentaiocho", 88);
+         mapaPalabrasNumeros.put("ochentainueve", 89);
+        mapaPalabrasNumeros.put("noventa", 90);
+        mapaPalabrasNumeros.put("nocventaiuno", 91);
+        mapaPalabrasNumeros.put("noventaidos", 92);
+        mapaPalabrasNumeros.put("noventaitres", 93);
+        mapaPalabrasNumeros.put("noventaicuatro", 94);
+        mapaPalabrasNumeros.put("noventaicinco", 95);
+        mapaPalabrasNumeros.put("noventaiseis", 96);
+        mapaPalabrasNumeros.put("noventaisiete", 97);
+        mapaPalabrasNumeros.put("noventaiocho", 98);
+        mapaPalabrasNumeros.put("noventainueve", 99);
+        mapaPalabrasNumeros.put("cien", 100);
+        mapaPalabrasNumeros.put("ciento", 100);
+        mapaPalabrasNumeros.put("doscientos", 200);
+        mapaPalabrasNumeros.put("trescientos", 300);
+        mapaPalabrasNumeros.put("cuatrocientos", 400);
+        mapaPalabrasNumeros.put("quinientos", 500);
+        mapaPalabrasNumeros.put("seiscientos", 600);
+        mapaPalabrasNumeros.put("setecientos", 700);
+        mapaPalabrasNumeros.put("ochocientos", 800);
+        mapaPalabrasNumeros.put("novecientos", 900);
+        mapaPalabrasNumeros.put("mil", 1000);
+        mapaPalabrasNumeros.put("dos mil", 2000);
+        mapaPalabrasNumeros.put("tres mil", 3000);
+        mapaPalabrasNumeros.put("cuatro mil", 4000);
+        mapaPalabrasNumeros.put("cinco mil", 5000);
+        mapaPalabrasNumeros.put("seis mil", 6000);
+        mapaPalabrasNumeros.put("siete mil", 7000);
+        mapaPalabrasNumeros.put("ocho mil", 8000);
+        mapaPalabrasNumeros.put("nueve mil", 9000);
+     
+     
+    }
+
+    private static void inicializarFraccionesEspecificas(Map<String, Integer> mapaPalabrasFracciones) {
+        mapaPalabrasFracciones.put("cero", 0);
+        mapaPalabrasFracciones.put("entero", 1);
+        mapaPalabrasFracciones.put("medio", 2);
+        mapaPalabrasFracciones.put("tercio", 3);
+        mapaPalabrasFracciones.put("cuarto", 4);
+        mapaPalabrasFracciones.put("quinto", 5);
+        mapaPalabrasFracciones.put("sexto", 6);
+        mapaPalabrasFracciones.put("septimo", 7);
+        mapaPalabrasFracciones.put("octavo", 8);
+        mapaPalabrasFracciones.put("noveno", 9);
+        mapaPalabrasFracciones.put("decimo", 10);
+        mapaPalabrasFracciones.put("cero", 0);
+         mapaPalabrasFracciones.put("enteros", 1);
+        mapaPalabrasFracciones.put("medios", 2);
+       mapaPalabrasFracciones.put("tercios", 3);
+        mapaPalabrasFracciones.put("cuartos", 4);
+        mapaPalabrasFracciones.put("quintos", 5);
+        mapaPalabrasFracciones.put("sextos", 6);
+        mapaPalabrasFracciones.put("septimos", 7);
+        mapaPalabrasFracciones.put("octavos", 8);
+        mapaPalabrasFracciones.put("novenos", 9);
+        mapaPalabrasFracciones.put("decimos", 10);
+    }
+
+    private static void Fracciones(Map<String, Integer> palabrasANumeros, Map<String, Integer> palabrasAFracciones) {
+       for (Map.Entry<String, Integer> entry : palabrasANumeros.entrySet()) {
+           String clave = entry.getKey();
+           Integer valor = entry.getValue();
+           if (valor > 10) {  
+
+               if (clave.endsWith("a")) {
+                   palabrasAFracciones.put(clave + "vos", valor);
+               } else {
+                   palabrasAFracciones.put(clave + "avos", valor);
+               }
+           }
+       }
+   }
+
+
+    private static Fraccion convertirPalabrasANumeros(String fraccionStr, Map<String, Integer> palabrasANumeros, Map<String, Integer> palabrasAFracciones) {
+        int numerador = 0;
+        int denominador = 1;
+        boolean auxNumerador = true;
+        boolean auxDenominador = true;
+        boolean esDenominadorPlural = false;
+        String[] partes = fraccionStr.split(" ");
+
+        for (String parte : partes) {
+            if (parte.equals("cero")) {
+                System.out.println("No se puede tener cero en la fraccion");
+                return null;
+            }
+
+            if (palabrasANumeros.containsKey(parte)) {
+                int valor = palabrasANumeros.get(parte);
+                if (auxNumerador) {
+                    numerador += valor;
+                    auxDenominador = false;
+                } else if (auxDenominador) {
+                    denominador = denominador + valor;
+                    auxDenominador = false;
+                } else {
+                    numerador = valor;
+                }
+            } else if (palabrasAFracciones.containsKey(parte)) {
+                denominador = palabrasAFracciones.get(parte);
+                esDenominadorPlural = parte.endsWith("s");
+            } else {
+                if(parte == "y"){
+                    System.out.println("No existe " + parte);
+                    return null;
                 }
             }
         }
-        if (parte == partes[0]) {
-                res = res.sumar(new Fraccion(numerador, denominador));
-        } else {
-        switch (operacion) {
-        case "+" -> res = res.sumar(new Fraccion(numerador, denominador));
-        case "-" -> res = res.restar(new Fraccion(numerador, denominador));
-        case "*" -> res = res.multiplicar(new Fraccion(numerador, denominador));
-        case "/" -> res = res.dividir(new Fraccion(numerador, denominador));
+
+
+        return new Fraccion(numerador, denominador);
     }
+
+    
+    private static Fraccion realizarOperacion(Fraccion fraccion1, Fraccion fraccion2, String operacion) {
+        switch (operacion) {
+            case "mas":
+                return fraccion1.sumar(fraccion2);
+            case "menos":
+                return fraccion1.restar(fraccion2);
+            case "por":
+                return fraccion1.multiplicar(fraccion2);
+            case "entre":
+                return fraccion1.dividir(fraccion2);
+            default:
+                System.out.println("No existe alguna operacion");
+                return null;
         }
     }
 
-    return res;
-}
+  
 
 
-
-
-    private static String fraccionAString(Fraccion fraccion) {
-        return fraccion.numerador + "/" + fraccion.denominador;
-    }
-    
 }
