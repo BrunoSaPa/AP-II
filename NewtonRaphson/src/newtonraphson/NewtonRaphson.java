@@ -124,14 +124,14 @@ private static double findRoot(Function<Double, Double> function, Function<Doubl
         f_x1 = function.apply(x1);
 
         if (Math.abs(f_x1) < tolerance) {
-            System.out.println("Convergencia alcanzada después de " + i + " iteraciones.");
+            System.out.println("Convergencia alcanzada despues de " + i + " iteraciones.");
             return x1;
         }
 
         x0 = x1;
     }
 
-    throw new RuntimeException("No se pudo encontrar después de 100 iteraciones.");
+    throw new RuntimeException("No se pudo encontrar despues de 100 iteraciones.");
 }
 
 
