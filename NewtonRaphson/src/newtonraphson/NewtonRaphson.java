@@ -34,7 +34,7 @@ public static void main(String[] args) {
 
     // Vamos a imprimir los coeficientes para verificar si se extrajeron correctamente
     for(Map.Entry<Integer, Double> entry : coefficients.entrySet()) {
-        System.out.println("Exponente " + entry.getKey() + ", Coefficiente " + entry.getValue());
+        System.out.println("Exponente " + entry.getKey() + ", Coeficiente " + entry.getValue());
     }
 
     Function<Double, Double> function = x -> evaluatePolynomial(x, coefficients);

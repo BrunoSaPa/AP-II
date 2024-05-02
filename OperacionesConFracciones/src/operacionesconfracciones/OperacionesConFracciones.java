@@ -1,27 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 
-/**
- *
- * @author BRUNO
- */
+
+
 package operacionesconfracciones;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ *
+ * @author BRUNO
+ */
+
 public class OperacionesConFracciones {
     public static void main(String[] args) {
-        //un medio mas tres quintos  res= 11/10
+    //un medio mas tres quintos  res= 11/10
     //un medio menos un medio  res= 0/4
     //noventa y nueve noventainueveavos por noventa y nueve noventainueveavos    res=9801/9801
     //diez noventainueveavos entre treinta y tres sesentaiseisavos   res=660/3267
-    // cero quintos entre tres novenos   res= 0/15
+    //cero quintos entre tres novenos   
     //tres novenos entre cero quintos
-    // tres cero mas dos sextos
-    // un medio mas genial
+    //tres cero mas dos sextos
+    //un medio mas genial
         
         
         Scanner scanner = new Scanner(System.in);
@@ -276,7 +275,7 @@ public class OperacionesConFracciones {
 
         for (String parte : partes) {
             if (parte.equals("cero")) {
-                System.out.println("No se puede tener cero en la fraccion");
+                System.out.println("Cero en el numerador o denominador no validos");
                 return null;
             }
 
